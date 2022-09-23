@@ -6,6 +6,8 @@ vim ~/.zshrc
 #10000dd
 # Insert the config file
 
+# Download powerlevel10k and install it
+
 
 # Access to kitty configuration files
 ~/.config/kitty
