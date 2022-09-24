@@ -98,6 +98,8 @@ keys = [
     Key([mod], "c", lazy.spawn("code"), desc="Open VsCode"),
     # Lauch Thunar
     Key([mod], "e", lazy.spawn("thunar"), desc="Open thunar"),
+    # Lauch Spotify
+    Key([mod], "s", lazy.spawn("spotify"), desc="Open spotify"),
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
