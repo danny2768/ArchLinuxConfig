@@ -2,6 +2,11 @@
 pacman -S zsh
 usermod --shell /usr/bin/zsh
 
+# To set keyboard layout
+sudo su
+localectl set-x11-keymap latam
+localectl set-c11-keumap us
+
 vim ~/.zshrc 
 #10000dd
 # Insert the config file
