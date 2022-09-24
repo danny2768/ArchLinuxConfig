@@ -36,6 +36,26 @@ from libqtile.utils import guess_terminal
 mod = "mod4"
 terminal = guess_terminal()
 
+# Here you can edit the bar color
+# SetBarColor = "#ff6400"
+# SetBarColor = "#08ff00"
+SetBarColor = "#babdc1"
+# SetBarColor = "#ffa129"
+BarSize = 24
+BarFontSize = 13
+
+# Group Box
+ActiveDesktopColor = "FFFFFF"
+IconsSize = 20
+IconsForeground = "ffffff"
+inactiveDesktopColor = '404040'
+
+# Window Name
+windowForeground = "404040"
+windowBackground = None
+
+
+
 keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
@@ -87,24 +107,30 @@ keys = [
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 ]
 
-groups = [Group(i) for i in "123456789"]
+# For mor icons visit:
+# https://www.nerdfonts.com/cheat-sheet
 
-for i in groups:
+groups = [Group(i) for i in [
+    " \uf303 "," \ue743 "," \ue795 "," \ufc6e "," \ue7a3 "," \ueab3 "," \uebaf "," \uf1bc "," \uf17c ",
+    ]]
+
+for i, group in enumerate(groups):
+    numDesktop = str(i+1)
     keys.extend(
         [
             # mod1 + letter of group = switch to group
             Key(
                 [mod],
-                i.name,
-                lazy.group[i.name].toscreen(),
-                desc="Switch to group {}".format(i.name),
+                numDesktop,
+                lazy.group[group.name].toscreen(),
+                desc="Switch to group {}".format(group.name),
             ),
             # mod1 + shift + letter of group = switch to & move focused window to group
             Key(
                 [mod, "shift"],
-                i.name,
-                lazy.window.togroup(i.name, switch_group=True),
-                desc="Switch to & move focused window to group {}".format(i.name),
+                numDesktop,
+                lazy.window.togroup(group.name, switch_group=True),
+                desc="Switch to & move focused window to group {}".format(group.name),
             ),
             # Or, use below if you prefer not to switch to that group.
             # # mod1 + shift + letter of group = move focused window to group
@@ -130,36 +156,59 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="sans",
-    fontsize=12,
-    padding=3,
+    font="Ubuntu Mono Nerd Font Complete",
+    fontsize=BarFontSize,
+    padding=1,
 )
 extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
-        bottom=bar.Bar(
+        top=bar.Bar(
             [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
+                widget.GroupBox(
+                    active = ActiveDesktopColor,
+                    borderwidth = 2,
+                    rounded = True, 
+                    fontsize = IconsSize,
+                    disable_drag = True,
+                    foreground = IconsForeground,
+                    highlight_method = 'line',
+                    inactive = inactiveDesktopColor,
+                    padding_x = 0,
+                    padding_y = 10
                 ),
-                widget.TextBox("default config", name="default"),
-                widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
+                widget.Sep(
+                    linewidth = 2,
+                    padding = 6
+                ),
+                widget.Prompt(),
+                widget.WindowName(
+                    foreground = windowForeground,
+                    background = windowBackground
+                ),
+
+                # widget.Chord(
+                #     chords_colors={
+                #         "launch": ("#ff0000", "#ffffff"),
+                #     },
+                #     name_transform=lambda name: name.upper(),
+                # ),
+                
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
-                widget.Systray(),
-                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
+                widget.Systray(
+                    icon_size = IconsSize,
+                    background = windowBackground
+                ),
+                widget.Clock(format="%d-%m-%Y %a %I:%M %p"),
                 widget.QuickExit(),
+                widget.CurrentLayout(),
             ],
-            24,
-            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
+            BarSize,
+            background=SetBarColor,
+            # border_width=
+            # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
     ),
