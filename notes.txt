@@ -13,6 +13,17 @@ vim ~/.zshrc
 
 # Download powerlevel10k and install it
 
+# Set up bluetooth
+sudo pacman -S bluez bluez-utils
+sudo systemctl start bluetooth.service
+sudo systemctl enable bluetooth.service
+agent KeyboardOnly
+default-agent
+power on
+scan on
+pair [Device]
+connect [Device]
+
 
 # Access to kitty configuration files
 ~/.config/kitty
