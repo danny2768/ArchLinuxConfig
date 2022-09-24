@@ -45,5 +45,3 @@ rofi-theme-selector
 # Apply with
 rofi -> customize look and feel
 
-
-
